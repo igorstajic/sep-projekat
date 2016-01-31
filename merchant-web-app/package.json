@@ -1,0 +1,24 @@
+{
+  "name": "merchant-web-app",
+  "version": "1.0.0",
+  "description": "merchant api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "merchant"
+  ],
+  "author": "istajic",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "json-api": "^2.15.7",
+    "mongoose": "^4.3.7",
+    "morgan": "^1.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.8.1"
+  }
+}
