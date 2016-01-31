@@ -12,12 +12,4 @@ var schema = mongoose.Schema({
   phone: Number
 });
 
-module.exports = {
-  model: mongoose.model('Person', schema),
-  resource: {
-    urlTemplates: {
-      'self': '/persons/{id}',
-      'relationship': '/persons/{ownerId}/relationships/{path}'
-    },
-  }
-};
+module.exports = mongoose.model('Person', schema);
