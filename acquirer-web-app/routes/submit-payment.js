@@ -9,5 +9,29 @@ function randomIntInc(low, high) {
 }
 module.exports = app => {
   app.route('/submit-payment')
-    .post((req, res, next) => {});
+    .post((req, res, next) => {
+      // Payment request to acquirer app.
+      r.post({
+        'url': env.acquirerUrl,
+        'json': true,
+        'body': {
+          // TODO: Handle request data.
+          'paymentRequest': {
+            'pan': 'pan',
+            'securityCode': '677',
+            'cardHolderName': 'Pera Peric',
+            'cardExpiryDate': '12/2016',
+            'transactionAmount': 9999.99,
+            'acquirerTimestamp': new Date().getTime()
+          }
+        }
+      }, (error, httpResponse, body) => {
+        // Get redirect url from merchant-web-app.
+        res.json({
+          'redirect': {
+            'url': 'http://localhost:4200/payment-error'
+          }
+        });
+      });
+    });
 };
