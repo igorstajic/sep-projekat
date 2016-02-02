@@ -17,11 +17,12 @@ module.exports = app => {
         'body': {
           // TODO: Handle request data.
           'paymentRequest': {
-            'pan': 'pan',
+            'pan': '4532678296618897',
             'securityCode': '677',
             'cardHolderName': 'Pera Peric',
             'cardExpiryDate': '12/2016',
             'transactionAmount': 9999.99,
+            'acquirerOrderId': randomIntInc(0, 99999999),
             'acquirerTimestamp': new Date().getTime()
           }
         }

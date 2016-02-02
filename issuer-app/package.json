@@ -1,16 +1,18 @@
 {
-  "name": "acquirer-app",
+  "name": "issuer-app",
   "version": "1.0.0",
-  "description": "Passtrough service.",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
   },
+  "keywords": [
+    "issuer" , "bank"
+  ],
   "author": "istajic",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.14.2",
     "express": "^4.13.4",
     "mongoose": "^4.3.7",
     "morgan": "^1.6.1",

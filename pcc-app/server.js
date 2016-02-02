@@ -26,12 +26,14 @@ var options = {
 mongoose.connect(env.db, options);
 
 var db = mongoose.connection;
+require('./models/issuer');
+var Issuer = mongoose.model('Issuer');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   // we're connected!
-  app.listen(3002, function() {
-    console.log('listening on 3002');
+  app.listen(3003, function() {
+    console.log('listening on 3003');
   });
 });
 
@@ -40,12 +42,16 @@ var env = require('../config/environment');
 
 app.route('/authorize-payment')
   .post((req, res, next) => {
-    // TODO: Persist request data.
-    r.post({
-      'url': env.pccUrl,
-      'json': true,
-      'body': req.body,
-    }, (error, httpResponse, body) => {
-      res.json(body);
+    Issuer.findOne({
+      'pan': req.body.paymentRequest.pan
+    }, 'url', function(err, issuer) {
+      if (err) return handleError(err);
+      r.post({
+        'url': issuer.url,
+        'json': true,
+        'body': req.body,
+      }, (error, httpResponse, body) => {
+        res.json(body);
+      });
     });
   });

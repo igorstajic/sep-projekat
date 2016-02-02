@@ -11,7 +11,7 @@ module.exports = app => {
         if (data.password === req.body.paymentRequest.merchantPassword) {
           res.json({
             'paymentResponse': {
-              'url': 'http://localhost:3001/payment',
+              'url': 'http://localhost:4201/payment',
               'id': '12345'
             }
           });

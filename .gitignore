@@ -1,3 +1,4 @@
 merchant-web-app/node_modules/*
 acquirer-web-app/node_modules/*
 acquirer-app/node_modules/*
+pcc-app/node_modules/*
