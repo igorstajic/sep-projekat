@@ -14,6 +14,14 @@ Request example:
   'cardExpiryDate': '12/2016'
 }
 */
+function handleError(res, errorUrl) {
+  return res.json({
+    'redirect': {
+      'url': errorUrl
+    }
+  });
+}
+
 module.exports = app => {
   app.route('/submit-payment/:paymentId').post((req, res, next) => {
     Payment.findOne({
@@ -32,11 +40,7 @@ module.exports = app => {
       });
       newTransaction.save((error, transaction) => {
         if (error || transaction === null) {
-          return res.json({
-            'error': {
-              'details': error
-            }
-          });
+          return handleError(res, payment.errorUrl);
         }
         // Payment request to acquirer app.
         r.post({
@@ -55,7 +59,9 @@ module.exports = app => {
           }
         }, (error, httpResponse, body) => {
           // Get redirect url from merchant-web-app.
-          console.log('body:', body);
+          if (!body) {
+            return handleError(res, payment.errorUrl);
+          }
           r.post({
             'url': env.finalizeUrl,
             'json': true,
@@ -69,10 +75,12 @@ module.exports = app => {
               }
             }
           }, (error, httpResponse, body) => {
+            if (error) {
+              return handleError(res, payment.errorUrl);
+            }
             res.json({
               'redirect': {
-                'url': body.url,
-                'body': body
+                'url': body.url
               }
             });
           });

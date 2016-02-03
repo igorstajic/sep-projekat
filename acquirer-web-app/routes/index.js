@@ -23,6 +23,7 @@ module.exports = app => {
           var newPayment = new Payment({
             'amount': req.body.paymentInfoRequest.amount,
             'merchantOrderId': req.body.paymentInfoRequest.orderId,
+            'errorUrl': req.body.paymentInfoRequest.errorUrl,
             'client': client._id
           });
           newPayment.save((error, payment) => {

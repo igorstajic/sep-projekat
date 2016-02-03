@@ -5,8 +5,13 @@ module.exports = app => {
     .post((req, res, next) => {
       // Return redirection url.
       console.log(req.body);
+      var responseUrl = env.failedUrl;
+      if (req.body.finalizeRequest.result === 'success') {
+        // TODO: Send email.
+        responseUrl = env.successUrl;
+      }
       res.json({
-        'url': (req.body.finalizeRequest.result === 'success') ? env.successUrl : env.failedUrl
+        'url': responseUrl
       });
 
     });

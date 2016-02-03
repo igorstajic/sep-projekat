@@ -48,20 +48,39 @@ var r = require('request');
 //     });
 //     acc.save();
 //   });
+
+function handleError(res, err) {
+  return res.json({
+    'error': {
+      'details': err
+    }
+  });
+}
+
 app.route('/payment')
   .post((req, res, next) => {
-    console.log('body:', req.body.paymentRequest);
     Account.findOne({
       'cardNumber': req.body.paymentRequest.pan
-    }, 'balance', function(err, account) {
-      if (err) return handleError(err);
+    }, 'balance reserved', function(err, account) {
+      if (err) {
+        return handleError(res, err);
+      }
       const response = {
-        status: (account.balance > req.body.paymentRequest.transactionAmount) ? 'success' : 'failed',
+        status: (account.balance >= req.body.paymentRequest.transactionAmount) ? 'success' : 'failed',
         acquirerOrderId: req.body.paymentRequest.acquirerOrderId,
         acquirerTimestamp: req.body.paymentRequest.acquirerTimestamp,
         issuerOrderId: 12345,
         issuerTimestamp: new Date().getTime()
       };
-      res.json({'paymentResponse': response});
+      Account.update({
+        '_id': account._id
+      }, {
+        'balance': account.balance - req.body.paymentRequest.transactionAmount,
+        'reserved': account.reserved + req.body.paymentRequest.transactionAmount
+      }, (error, data) => {
+        res.json({
+          'paymentResponse': response
+        });
+      });
     });
   });
