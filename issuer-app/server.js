@@ -38,21 +38,30 @@ db.once('open', () => {
 });
 
 var r = require('request');
-var env = require('../config/environment');
 
+// app.route('/add')
+//   .post((req, res, next) => {
+//     var acc = new Account({
+//       accountNumber: 4532532525235325,
+//       cardNumber: 4532678296618897,
+//       balance: 100000.00
+//     });
+//     acc.save();
+//   });
 app.route('/payment')
   .post((req, res, next) => {
+    console.log('body:', req.body.paymentRequest);
     Account.findOne({
       'cardNumber': req.body.paymentRequest.pan
     }, 'balance', function(err, account) {
       if (err) return handleError(err);
       const response = {
-        status: (account.balance > req.body.paymentRequest.amount) ? 'sucess' : 'failed',
+        status: (account.balance > req.body.paymentRequest.transactionAmount) ? 'success' : 'failed',
         acquirerOrderId: req.body.paymentRequest.acquirerOrderId,
         acquirerTimestamp: req.body.paymentRequest.acquirerTimestamp,
         issuerOrderId: 12345,
         issuerTimestamp: new Date().getTime()
       };
-      res.json(response);
+      res.json({'paymentResponse': response});
     });
   });

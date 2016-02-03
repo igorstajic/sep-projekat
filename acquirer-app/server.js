@@ -36,7 +36,6 @@ db.once('open', () => {
 });
 
 var r = require('request');
-var env = require('../config/environment');
 
 app.route('/authorize-payment')
   .post((req, res, next) => {

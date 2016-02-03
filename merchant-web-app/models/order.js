@@ -11,12 +11,6 @@ const schema = mongoose.Schema({
   amount: Number
 });
 
-module.exports = {
-  model: mongoose.model('Order', schema),
-  resource: {
-    urlTemplates: {
-      'self': '/orders/{id}',
-      'relationship': '/orders/{ownerId}/relationships/{path}'
-    },
-  }
-};
+schema.plugin(autoIncrement.plugin, 'Order');
+
+module.exports = mongoose.model('Order', schema);

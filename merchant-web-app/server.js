@@ -1,10 +1,14 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var autoIncrement = require('mongoose-auto-increment');
 var env = require('./config/environment');
 var logger = require('morgan');
+var bodyParser = require('body-parser');
+
 var app = express();
 
 app.use(logger('dev'));
+app.use(bodyParser.json());
 
 var options = {
   server: {
@@ -25,6 +29,7 @@ mongoose.connect(env.db, options);
 
 var db = mongoose.connection;
 
+autoIncrement.initialize(db);
 require('./models/policy');
 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -36,3 +41,4 @@ db.once('open', () => {
 });
 
 require('./routes/submit-order')(app);
+require('./routes/finalize-order')(app);

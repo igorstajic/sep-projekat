@@ -18,28 +18,28 @@ module.exports = app => {
         'url': env.acquirerUrl,
         'json': true,
         'body': {
-          'paymentRequest': {
+          'paymentInfoRequest': {
             'merchantId': env.merchantId,
             'merchantPassword': env.merchantPassword,
             'amount': calculatePolicyAmount(),
             'orderId': randomIntInc(0, 9999999999),
             'timestamp': new Date().getTime(),
-            'errorUrl': 'http://localhost:4200/payment-error'
+            'errorUrl': env.errorUrl
           }
         }
       }, (error, httpResponse, body) => {
         // Respond to the submit request.
-        if (error || body.paymentResponse === undefined) {
+        if (error || body.paymentInfoResponse === undefined) {
           res.json({
             'redirect': {
-              'url': 'http://localhost:4200/payment-error'
+              'url': env.errorUrl
             }
           });
         } else {
           res.json({
             'redirect': {
-              'url': body.paymentResponse.url,
-              'param': body.paymentResponse.id
+              'url': body.paymentInfoResponse.url,
+              'param': body.paymentInfoResponse.id
             }
           });
         }

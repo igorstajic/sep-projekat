@@ -16,7 +16,8 @@
     "express": "^4.13.4",
     "mongoose": "^4.3.7",
     "morgan": "^1.6.1",
-    "request": "^2.69.0"
+    "request": "^2.69.0",
+    "body-parser": "^1.14.2"
   },
   "devDependencies": {
     "nodemon": "^1.8.1"

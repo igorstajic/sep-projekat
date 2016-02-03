@@ -13,12 +13,4 @@ const schema = mongoose.Schema({
   amountLimit: Number
 });
 
-module.exports = {
-  model: mongoose.model('Policy', schema),
-  resource: {
-    urlTemplates: {
-      'self': '/policies/{id}',
-      'relationship': '/policies/{ownerId}/relationships/{path}'
-    },
-  }
-};
+module.exports = mongoose.model('Policy', schema);
