@@ -39,7 +39,6 @@ var r = require('request');
 
 app.route('/authorize-payment')
   .post((req, res, next) => {
-    // TODO: Persist request data.
     r.post({
       'url': env.pccUrl,
       'json': true,

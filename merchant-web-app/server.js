@@ -31,7 +31,6 @@ var db = mongoose.connection;
 
 autoIncrement.initialize(db);
 require('./models/policy');
-require('./models/person');
 require('./models/order');
 
 

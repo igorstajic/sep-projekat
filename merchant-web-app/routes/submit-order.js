@@ -16,13 +16,35 @@ function handleError(res) {
     }
   });
 }
+
+/*
+Request example:
+"insurancePolicy": {
+  "region": "Europe",
+  "timePeriod": 1454535344837,
+  "sport": "football",
+  "amountLimit": 50000,
+  "persons": [
+  {
+    "fullName":"Pera Peric",
+    "jmbg": 1010990800213,
+    "passportNumber": 512124
+  },
+  {
+    "fullName":"Sima Simic",
+    "jmbg": 1010992893010,
+    "passportNumber": 124124,
+    "email": "simasimic@gmail.com"
+  }],
+  "homeInsurance":{
+    "estimatedValue": 50000
+  }
+}
+*/
 module.exports = app => {
   app.route('/submit-order')
     .post((req, res, next) => {
-      var newPolicy = new Policy({
-        "region": req.body.insurancePolicy.region,
-        "amountLimit": req.body.insurancePolicy.amountLimit
-      });
+      var newPolicy = new Policy(req.body.insurancePolicy);
       newPolicy.save((error, policy) => {
         if (error) {
           return handleError(res);
