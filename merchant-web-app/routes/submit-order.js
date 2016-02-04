@@ -5,18 +5,6 @@ var Order = require('mongoose').model('Order');
 var r = require('request');
 var env = require('../config/environment');
 
-function calculatePolicyAmount(policy) {
-  return 100;
-}
-
-function handleError(res) {
-  return res.json({
-    'redirect': {
-      'url': env.errorUrl
-    }
-  });
-}
-
 /*
 Request example:
 "insurancePolicy": {
@@ -74,7 +62,6 @@ module.exports = app => {
             }
           }, (error, httpResponse, body) => {
             // Respond to the submit request.
-            console.log(body);
             if (error || body.paymentInfoResponse === undefined) {
               return handleError(res);
             } else {
@@ -101,3 +88,15 @@ module.exports = app => {
       });
     });
 };
+
+function handleError(res) {
+  return res.json({
+    'redirect': {
+      'url': env.errorUrl
+    }
+  });
+}
+
+function calculatePolicyAmount(policy) {
+  return 100;
+}
