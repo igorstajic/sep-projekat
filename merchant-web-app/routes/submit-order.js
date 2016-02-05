@@ -51,6 +51,7 @@ module.exports = app => {
           r.post({
             'url': env.acquirerUrl,
             'json': true,
+            'rejectUnauthorized': false,
             'body': {
               'paymentInfoRequest': {
                 'merchantId': env.merchantId,

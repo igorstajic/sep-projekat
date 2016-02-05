@@ -48,16 +48,6 @@ db.once('open', () => {
 
 var r = require('request');
 
-// app.route('/add')
-//   .post((req, res, next) => {
-//     var acc = new Account({
-//       accountNumber: 4532532525235325,
-//       cardNumber: 4532678296618897,
-//       balance: 100000.00
-//     });
-//     acc.save();
-//   });
-
 function handleError(res, err) {
   return res.json({
     'error': {

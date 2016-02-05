@@ -49,6 +49,7 @@ app.route('/authorize-payment')
   .post((req, res, next) => {
     r.post({
       'url': env.pccUrl,
+      'rejectUnauthorized': false,
       'json': true,
       'body': req.body,
     }, (error, httpResponse, body) => {

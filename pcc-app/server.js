@@ -57,6 +57,7 @@ app.route('/authorize-payment')
       r.post({
         'url': issuer.url,
         'json': true,
+        'rejectUnauthorized': false,
         'body': req.body,
       }, (error, httpResponse, body) => {
         res.json(body);
