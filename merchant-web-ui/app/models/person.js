@@ -1,6 +1,5 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import Ember from 'ember';
 import {
   belongsTo
 }
@@ -11,34 +10,52 @@ import {
 from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  idNumber: validator('presence', true),
+  idNumber: [
+    validator('presence', true),
+    validator('length', {
+      is: 13
+    })
+  ],
   name: validator('presence', {
     presence: true
   }),
-  lastName: validator('presence', true),
-  email: validator('format', {
-    type: 'email'
-  }),
+  email: [
+    validator('format', {
+      type: 'email',
+      dependentKeys: ['isInsuranceHolder'],
+      disabled() {
+        return !this.get('model.isInsuranceHolder');
+      }
+    }),
+    validator('presence', {
+      presence: true,
+      dependentKeys: ['isInsuranceHolder'],
+      disabled() {
+        return !this.get('model.isInsuranceHolder');
+      }
+    })
+  ],
   address: validator('presence', true),
   phoneNumber: validator('presence', true),
-  passportNumber: validator('presence', true),
+  passportNumber: [
+    validator('presence', true),
+    validator('length', {
+      gt: 5
+    })
+  ],
 });
 export default Model.extend(Validations, {
   idNumber: attr('number'),
   name: attr('string'),
-  lastName: attr('string'),
   email: attr('string'),
   ageCategory: attr('number'),
   address: attr('string'),
   phoneNumber: attr('string'),
   passportNumber: attr('number'),
+  isInsuranceHolder: attr('boolean'),
 
 
-  policy: belongsTo('insurance-policy'),
-
-  fullName: Ember.computed('name', 'lastName', function() {
-    return `${this.get('name') || ''} ${this.get('lastName') || ''}`;
-  }),
+  policy: belongsTo('insurance-policy')
 
 
 });

@@ -1,10 +1,21 @@
 /* jshint node: true */
+const contentSecurityPolicy = {
+  'default-src': "'none'",
+  'script-src': "'self'",
+  'font-src': "'self' https://fonts.gstatic.com",
+  'connect-src': "'self' localhost:* http://127.0.0.1:*",
+  'img-src': "'self' data:",
+  'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com/css",
+  'media-src': "'self'",
+  'child-src': 'blob:'
+};
 
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'merchant-web-ui',
     environment: environment,
     baseURL: '/',
+    contentSecurityPolicy: contentSecurityPolicy,
     locationType: 'auto',
     EmberENV: {
       FEATURES: {

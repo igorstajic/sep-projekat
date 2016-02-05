@@ -32,10 +32,11 @@ Request example:
 module.exports = app => {
   app.route('/submit-order')
     .post((req, res, next) => {
+      console.log('body:', req.body.insurancePolicy);
       var newPolicy = new Policy(req.body.insurancePolicy);
       newPolicy.save((error, policy) => {
         if (error) {
-          return handleError(res);
+          return handleError(res, error);
         }
         var newOrder = new Order({
           "timestamp": new Date().getTime(),
@@ -44,7 +45,7 @@ module.exports = app => {
         });
         newOrder.save((error, order) => {
           if (error) {
-            return handleError(res);
+            return handleError(res, error);
           }
           // Submit order request to acquirer app.
           r.post({
@@ -63,7 +64,7 @@ module.exports = app => {
           }, (error, httpResponse, body) => {
             // Respond to the submit request.
             if (error || body.paymentInfoResponse === undefined) {
-              return handleError(res);
+              return handleError(res, error);
             } else {
               res.json({
                 'redirect': {
@@ -89,10 +90,11 @@ module.exports = app => {
     });
 };
 
-function handleError(res) {
+function handleError(res, error) {
+  res.status(500);
   return res.json({
-    'redirect': {
-      'url': env.errorUrl
+    'error': {
+      'details': error
     }
   });
 }

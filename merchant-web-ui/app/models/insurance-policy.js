@@ -10,8 +10,26 @@ import {
 from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  startDate: validator('presence', true),
-  endDate: validator('presence', true),
+  startDate: {
+    description: 'Start date',
+    validators: [
+      validator('presence', true),
+      validator('date', {
+        before: 'now',
+        format: 'M/D/YYYY'
+      })
+    ]
+  },
+  endDate: {
+    description: 'End date',
+    validators: [
+      validator('presence', true),
+      validator('date', {
+        before: 'now',
+        format: 'M/D/YYYY'
+      })
+    ]
+  },
   region: validator('presence', true),
   amountLimit: validator('presence', true),
   // vehicleInsurance: validator('belongs-to'),

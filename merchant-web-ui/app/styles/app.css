@@ -1,15 +1,4 @@
-.person-list-item {
-  background-color: #d9e8ed;
-  border: 1px solid #98aefa;
-}
-
-.person-list-item:hover {
+.remove-btn:hover {
   background-color: #51afcf;
   cursor: pointer;
-  border: 1px solid #98aefa;
-}
-
-.form-control-feedback {
-    top: 0;
-    right: 15px;
 }
