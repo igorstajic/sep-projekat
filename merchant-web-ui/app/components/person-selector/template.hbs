@@ -1,0 +1,34 @@
+<div class="col-md-4">
+  {{#each persons as |person index|}}
+    <div {{action 'selectPerson' person}} class="border-top-radius row person-list-item">
+      <a>
+        {{#if person.name}} {{person.fullName}} {{else}} Person {{index}} {{/if}}
+      </a>
+    </div>
+    {{else}}
+      No persons added.
+  {{/each}}
+  <button type="button" class="btn btn-primary btn-block" {{action attrs.addPerson}}>Add a person</button>
+</div>
+<div class="col-md-8">
+  {{#if selectedPerson}}
+      <div class="form-group has-feedback {{if (v-get selectedPerson 'name' 'isValid') 'has-success' 'has-error'}}">
+        <label class="col-sm-1 control-label">First name</label>
+        <div class="col-sm-5">
+          {{input class="form-control" value=selectedPerson.name }}
+          <span class="glyphicon form-control-feedback {{if (v-get selectedPerson 'name' 'isValid') 'glyphicon-ok' 'glyphicon-remove'}}" aria-hidden="true"></span>
+        </div>
+        <span class="help-block">{{v-get selectedPerson 'name' 'message'}}</span>
+      </div>
+      <div class="form-group has-feedback {{if (v-get selectedPerson 'lastName' 'isValid') 'has-success' 'has-error'}}">
+        <label class="col-sm-1 control-label">Last name</label>
+        <div class="col-sm-5">
+          {{input class="form-control" value=selectedPerson.lastName }}
+          <span class="glyphicon form-control-feedback {{if (v-get selectedPerson 'lastName' 'isValid') 'glyphicon-ok' 'glyphicon-remove'}}" aria-hidden="true"></span>
+        </div>
+        <span class="help-block">{{v-get selectedPerson 'lastName' 'message'}}</span>
+      </div>
+  {{else}}
+    No person selected.
+  {{/if}}
+</div>

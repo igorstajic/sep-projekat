@@ -1,0 +1,31 @@
+<h2>Buy travel insurance</h2>
+<form>
+  <div class="form-group has-feedback {{if (v-get model 'region' 'isValid') 'has-success' 'has-error'}}">
+    <label class="col-sm-1 control-label">Region</label>
+    <div class="col-sm-5">
+      <select class="col-sm-5 form-control" onchange= {{action (mut model.region) value="target.value"}}>
+        <option selected disabled>Please select a region</option>
+        {{#each regionList as |region|}}
+          <option value= {{region}} selected= {{eq region model.region}}>{{region}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <span class="help-block">{{v-get model 'region' 'message'}}</span>
+  </div>
+  <div class="form-group has-feedback {{if (v-get model 'startDate' 'isValid') 'has-success' 'has-error'}}">
+    <label class="col-sm-1 control-label">Start date</label>
+    {{date-picker class="col-sm-3" date=model.startDate}}
+    <span class="help-block">{{v-get model 'region' 'message'}}</span>
+  </div>
+  <div class="form-group has-feedback {{if (v-get model 'endDate' 'isValid') 'has-success' 'has-error'}}">
+    <label class="col-sm-1 control-label">Start date</label>
+    {{date-picker class="col-sm-3" date=model.endDate}}
+    <span class="help-block">{{v-get model 'region' 'message'}}</span>
+  </div>
+  {{person-selector persons=model.persons addPerson=(action 'addPerson')}}
+  {{#if (v-get model 'isValid')}}
+    <button type="submit" class="btn btn-default">Submit</button>
+  {{else}}
+    <button type="submit" class="btn btn-default" disabled>Submit</button>
+  {{/if}}
+</form>

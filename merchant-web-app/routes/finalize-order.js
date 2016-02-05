@@ -8,7 +8,6 @@ module.exports = app => {
   app.route('/finalize-order')
     .post((req, res, next) => {
       // Return redirection url.
-      console.log(req.body);
       const orderStatus = req.body.finalizeRequest.result === 'success';
       var responseUrl = (orderStatus) ? env.successUrl : env.failedUrl;
 
