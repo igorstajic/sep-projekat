@@ -8,6 +8,15 @@ var app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 
+var fs = require('fs');
+
+var https = require('https');
+var privateKey  = fs.readFileSync('./ssl/server.key', 'utf8');
+var certificate = fs.readFileSync('./ssl/server.crt', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+
+var httpsServer = https.createServer(credentials, app);
+
 var options = {
   server: {
     socketOptions: {
@@ -32,8 +41,8 @@ var Issuer = mongoose.model('Issuer');
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   // we're connected!
-  app.listen(3003, function() {
-    console.log('listening on 3003');
+  httpsServer.listen(7443, () => {
+    console.log('listening on 7443');
   });
 });
 

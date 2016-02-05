@@ -1,6 +1,6 @@
 module.exports = {
   db: 'mongodb://istajic:admin123@ds037015.mongolab.com:37015/dev1',
-  paymentUrl: 'http://localhost:4201/payment',
-  acquirerUrl: 'http://localhost:3002/authorize-payment',
-  finalizeUrl: 'http://localhost:3000/finalize-order'
+  paymentUrl: 'https://localhost:5200/payment',
+  acquirerUrl: 'https://localhost:4443/authorize-payment',
+  finalizeUrl: 'https://localhost:8443/finalize-order'
 };

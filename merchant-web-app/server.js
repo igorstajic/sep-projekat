@@ -13,6 +13,7 @@ var credentials = {key: privateKey, cert: certificate};
 
 var app = express();
 
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 
@@ -54,9 +55,6 @@ db.once('open', () => {
   httpsServer.listen(8443, () => {
     console.log('listening on 8443');
   });
-  // app.listen(3000, function() {
-  //   console.log('listening on 3000');
-  // });
 });
 
 require('./routes/submit-order')(app);
