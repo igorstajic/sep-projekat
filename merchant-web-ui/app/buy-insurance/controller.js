@@ -18,6 +18,12 @@ export default Ember.Controller.extend({
   }],
   paymentRedirection: null,
   isProcessing: false,
+  addVehicleInsuranceDisabled: Ember.computed('model.homeInsurance', function() {
+    if (this.get('model.homeInsurance')) {
+      return 'true';
+    }
+    return '';
+  }),
   actions: {
     addPerson: function() {
       let newPerson = this.store.createRecord('person');
@@ -31,6 +37,12 @@ export default Ember.Controller.extend({
     },
     removeHomeInsurance() {
       this.get('model.homeInsurance').deleteRecord();
+    },
+    addVehicleInsurance: function() {
+      this.set('model.vehicleInsurance', this.store.createRecord('vehicle-insurance'));
+    },
+    removeVehicleInsurance() {
+      this.get('model.vehicleInsurance').deleteRecord();
     },
     submitOrder() {
       this.toggleProperty('isProcessing');

@@ -9,9 +9,9 @@ export default Model.extend({
   startDate: attr('date'),
   endDate: attr('date'),
 
-  towingServices: attr('number'),
-  repairServices: attr('string'),
-  hotelAccomodation: attr('number'),
+  towingServices: attr('boolean'),
+  repairServices: attr('boolean'),
+  hotelAccomodation: attr('boolean'),
   alternativeTransport: attr('boolean'),
 
   vehicleType: attr('string'),
