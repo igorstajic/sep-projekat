@@ -3,8 +3,8 @@
   <h2>Buy travel insurance</h2>
   <br/>
   <br/>
-  <form>
-    <div class="col-sm-5 col-sm-offset-1">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
       <select class="form-control" onchange= {{action (mut model.region) value="target.value"}}>
         <option selected disabled>Select the region you are traveling to.</option>
         {{#each regionList as |region|}}
@@ -12,7 +12,7 @@
         {{/each}}
       </select>
     </div>
-    <div class="col-sm-5">
+    <div class="col-sm-6 col-sm-offset-3">
       <select class="form-control" onchange= {{action (mut model.amountLimit) value="target.value"}}>
         <option selected disabled>Select maximum insurance amount.</option>
         {{#each amountLimits as |amount|}}
@@ -20,30 +20,35 @@
         {{/each}}
       </select>
     </div>
-    <div class="row">
-      {{validated-input class="col-sm-5 col-sm-offset-1" model=model valuePath='startDate' placeholder='Start date'}} {{validated-input class="col-sm-5" model=model valuePath='endDate' placeholder='End date'}}
-    </div>
-    {{#each model.persons as |person index|}}
-      {{#if (eq index 0)}}
-        {{traveler-panel showEmail=true headerText='Insurance holder information' person=person remove=(action 'removePerson' person)}}
-      {{else}}
-        {{traveler-panel person=person remove=(action 'removePerson' person)}}
-      {{/if}}
-    {{/each}}
-    {{#if isProcessing}}
-      <span class="col-sm-offset-1 glyphicon glyphicon-refresh gly-spin"></span>
+
+    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='startDate' placeholder='Start date'}}
+    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='endDate' placeholder='End date'}}
+    <button class="btn btn-primary col-sm-offset-4 col-sm-2">Add vehicle insurance</button>
+    <button class="btn btn-primary col-sm-offset-1 col-sm-2" {{action 'addHomeInsurance'}}>Add home insurance</button>
+  </div>
+  {{#if model.homeInsurance}}
+  {{home-insurance-panel model=model.homeInsurance remove=(action 'removeHomeInsurance')}}
+  {{/if}}
+  {{#each model.persons as |person index|}}
+    {{#if (eq index 0)}}
+      {{traveler-panel showEmail=true headerText='Insurance holder information' person=person remove=(action 'removePerson' person)}}
     {{else}}
-      {{#unless paymentRedirection}}
-        <button {{action 'addPerson'}} class="btn btn-info">Add traveler</button>
-        {{#if (v-get model 'isValid')}}
-          <button class="btn btn-default" {{action 'submitOrder'}}>Submit</button>
-        {{else}}
-          <button class="btn btn-default" {{action 'submitOrder'}} >Submit</button>
-        {{/if}}
-    {{else}}
-      <a href="{{paymentRedirection.url}}/{{paymentRedirection.param}}" class="btn btn-success">Go to payment</a>
-      {{/unless}}
+      {{traveler-panel person=person remove=(action 'removePerson' person)}}
     {{/if}}
-  </form>
+  {{/each}}
+  {{#if isProcessing}}
+    <span class="col-sm-offset-1 glyphicon glyphicon-refresh gly-spin"></span>
+  {{else}}
+    {{#unless paymentRedirection}}
+      <button {{action 'addPerson'}} class="btn btn-info">Add traveler</button>
+      {{#if (v-get model 'isValid')}}
+        <button class="btn btn-default" {{action 'submitOrder'}}>Submit</button>
+      {{else}}
+        <button class="btn btn-default" {{action 'submitOrder'}}>Submit</button>
+      {{/if}}
+  {{else}}
+    <a href="{{paymentRedirection.url}}/{{paymentRedirection.param}}" class="btn btn-success">Go to payment</a>
+    {{/unless}}
+  {{/if}}
 </div>
 <div class="col-md-3"></div>

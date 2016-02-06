@@ -1,0 +1,28 @@
+<div class="panel-heading">
+  Home insurance information
+  <span {{action attrs.remove}} class="remove-btn pull-right glyphicon glyphicon-remove"/>
+</div>
+<div class="panel-body">
+  {{validated-input model=model valuePath='ownerFullName' placeholder='Full name'}}
+  {{validated-input model=model valuePath='ownerIdNumber' placeholder='JMBG'}}
+  {{validated-input model=model valuePath='startDate' placeholder='Start date'}}
+  {{validated-input model=model valuePath='endDate' placeholder='End date'}}
+  {{validated-input model=model valuePath='homeValueEstimate' placeholder='Value estimate'}}
+  {{validated-input model=model valuePath='homeAddress' placeholder='Address'}}
+  {{validated-input model=model valuePath='homeArea' placeholder='Area in m²'}}
+  {{validated-input model=model valuePath='homeAge' placeholder='Age of the home'}}
+  <div class="form-inline">
+  <div class="form-group">
+    {{input id='fire_insurance' type='checkbox' class='form-control' checked=model.fireInsurance}}
+    <label for="fire_insurance">Fire insurance</label>
+  </div>
+  <div class="form-group">
+    {{input id='flood_insurance' type='checkbox' class='form-control' checked=model.floodInsurance}}
+    <label for="flood_insurance">Flood insurance</label>
+  </div>
+  <div class="form-group">
+    {{input id='burglary_insurance' type='checkbox' class='form-control' checked=model.burglaryInsurance}}
+    <label for="burglary_insurance">Burglary insurance</label>
+  </div>
+  </div>
+</div>

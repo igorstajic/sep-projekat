@@ -26,6 +26,12 @@ export default Ember.Controller.extend({
     removePerson(person) {
       person.deleteRecord();
     },
+    addHomeInsurance: function() {
+      this.set('model.homeInsurance', this.store.createRecord('home-insurance'));
+    },
+    removeHomeInsurance() {
+      this.get('model.homeInsurance').deleteRecord();
+    },
     submitOrder() {
       this.toggleProperty('isProcessing');
       this.get('ajax').post('https://localhost:8443/submit-order', {

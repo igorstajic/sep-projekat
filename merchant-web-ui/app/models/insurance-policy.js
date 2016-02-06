@@ -43,8 +43,8 @@ export default Model.extend(Validations, {
   sport: attr('string'),
   amountLimit: attr('number'),
 
-  vehicleInsurance: belongsTo('vehicle-insurance'),
-  homeInsurance: belongsTo('home-insurance'),
+  vehicleInsurance: belongsTo('vehicle-insurance', {async: false}),
+  homeInsurance: belongsTo('home-insurance', {async: false}),
 
   persons: hasMany('person')
 });
