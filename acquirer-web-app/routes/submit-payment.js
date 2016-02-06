@@ -14,7 +14,10 @@ Request example:
   'cardExpiryDate': '12/2016'
 }
 */
-function handleError(res, errorUrl) {
+function handleError(res, errorUrl, error) {
+  if (error) {
+    console.log('error:', error);
+  }
   return res.json({
     'redirect': {
       'url': errorUrl
@@ -40,7 +43,7 @@ module.exports = app => {
       });
       newTransaction.save((error, transaction) => {
         if (error || transaction === null) {
-          return handleError(res, payment.errorUrl);
+          return handleError(res, payment.errorUrl, error);
         }
         // Payment request to acquirer app.
         r.post({
@@ -61,11 +64,12 @@ module.exports = app => {
         }, (error, httpResponse, body) => {
           // Get redirect url from merchant-web-app.
           if (!body) {
-            return handleError(res, payment.errorUrl);
+            return handleError(res, payment.errorUrl, error);
           }
           r.post({
             'url': env.finalizeUrl,
             'json': true,
+            'rejectUnauthorized': false,
             'body': {
               'finalizeRequest': {
                 'result': body.paymentResponse.status,
@@ -77,7 +81,7 @@ module.exports = app => {
             }
           }, (error, httpResponse, body) => {
             if (error) {
-              return handleError(res, payment.errorUrl);
+              return handleError(res, payment.errorUrl, error);
             }
             res.json({
               'redirect': {
