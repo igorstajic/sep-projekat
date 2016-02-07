@@ -10,7 +10,7 @@ const contentSecurityPolicy = {
 };
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'merchant-web-ui',
+    modulePrefix: 'acquirer-web-ui',
     environment: environment,
     baseURL: '/',
     contentSecurityPolicy: contentSecurityPolicy,
