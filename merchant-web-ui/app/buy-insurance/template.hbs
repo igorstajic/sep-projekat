@@ -1,6 +1,6 @@
 <div class="col-md-3"></div>
 <div class="col-md-6 well">
-  <h2>Buy travel insurance</h2>
+  <h2 id='top'>Buy travel insurance</h2>
   <br/>
   <br/>
   <div class="row">
@@ -35,16 +35,16 @@
     {{/if}}
   </div>
   {{#if model.homeInsurance}}
-  {{home-insurance-panel model=model.homeInsurance remove=(action 'removeHomeInsurance')}}
+  {{home-insurance-panel didValidate=didValidate model=model.homeInsurance remove=(action 'removeHomeInsurance')}}
   {{/if}}
   {{#if model.vehicleInsurance}}
-  {{vehicle-insurance-panel model=model.vehicleInsurance remove=(action 'removeVehicleInsurance')}}
+  {{vehicle-insurance-panel didValidate=didValidate model=model.vehicleInsurance remove=(action 'removeVehicleInsurance')}}
   {{/if}}
   {{#each model.persons as |person index|}}
     {{#if (eq index 0)}}
-      {{traveler-panel showEmail=true headerText='Insurance holder information' person=person remove=(action 'removePerson' person)}}
+      {{traveler-panel didValidate=didValidate showEmail=true headerText='Insurance holder information' person=person remove=(action 'removePerson' person)}}
     {{else}}
-      {{traveler-panel person=person remove=(action 'removePerson' person)}}
+      {{traveler-panel didValidate=didValidate person=person remove=(action 'removePerson' person)}}
     {{/if}}
   {{/each}}
   {{#if isProcessing}}

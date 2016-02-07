@@ -5,5 +5,4 @@ export default Ember.Component.extend({
   person: null,
   showEmail: false,
   headerText: 'Traveler information'
-
 });

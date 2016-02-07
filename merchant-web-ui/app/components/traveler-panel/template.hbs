@@ -3,7 +3,7 @@
   <span {{action attrs.remove}} class="{{if showEmail 'hidden'}} remove-btn pull-right glyphicon glyphicon-remove"/>
 </div>
 <div class="panel-body">
-  {{validated-input model=person valuePath='name' placeholder='Full name'}}
+  {{validated-input model=(mut person) valuePath='name' placeholder='Full name'}}
   {{validated-input model=person valuePath='passportNumber' placeholder='Passport number'}}
   {{validated-input model=person valuePath='idNumber' placeholder='JMBG'}}
   {{validated-input model=person valuePath='address' placeholder='Address'}}

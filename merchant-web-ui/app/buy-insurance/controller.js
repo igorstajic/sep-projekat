@@ -18,12 +18,7 @@ export default Ember.Controller.extend({
   }],
   paymentRedirection: null,
   isProcessing: false,
-  addVehicleInsuranceDisabled: Ember.computed('model.homeInsurance', function() {
-    if (this.get('model.homeInsurance')) {
-      return 'true';
-    }
-    return '';
-  }),
+  didValidate: false,
   actions: {
     addPerson: function() {
       let newPerson = this.store.createRecord('person');
@@ -45,18 +40,28 @@ export default Ember.Controller.extend({
       this.get('model.vehicleInsurance').deleteRecord();
     },
     submitOrder() {
-      this.toggleProperty('isProcessing');
-      this.get('ajax').post('https://localhost:8443/submit-order', {
-        contentType: 'application/json;charset=utf-8',
-        data: JSON.stringify({
-          'insurancePolicy': this.get('model').serialize()
-        }),
-      }).then(response => {
-        this.toggleProperty('isProcessing');
-        this.set('paymentRedirection', response.redirect);
-      }).catch(() => {
-        this.transitionToRoute('order-error');
+      var model = this.get('model');
+      model.validate().then(({model, validations}) => {
+        this.set('didValidate', true);
+        if (validations.get('isValid')) {
+          this.set('isProcessing', true);
+          this.get('ajax').post('https://localhost:8443/submit-order', {
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify({
+              'insurancePolicy': this.get('model').serialize()
+            }),
+          }).then(response => {
+            this.set('isProcessing', false);
+            this.set('paymentRedirection', response.redirect);
+          }).catch(() => {
+            this.set('isProcessing', false);
+            this.transitionToRoute('order-error');
+          });
+        } else {
+          // Show error message?
+        }
       });
+
     }
   }
 });

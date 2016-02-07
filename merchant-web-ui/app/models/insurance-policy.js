@@ -32,8 +32,8 @@ const Validations = buildValidations({
   },
   region: validator('presence', true),
   amountLimit: validator('presence', true),
-  // vehicleInsurance: validator('belongs-to'),
-  // homeInsurance: validator('belongs-to'),
+  vehicleInsurance: validator('belongs-to'),
+  homeInsurance: validator('belongs-to'),
   persons: validator('has-many')
 });
 export default Model.extend(Validations, {
@@ -46,5 +46,5 @@ export default Model.extend(Validations, {
   vehicleInsurance: belongsTo('vehicle-insurance', {async: false}),
   homeInsurance: belongsTo('home-insurance', {async: false}),
 
-  persons: hasMany('person')
+  persons: hasMany('person', {async: false})
 });
