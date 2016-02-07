@@ -1,0 +1,19 @@
+<div class="col-md-2"></div>
+<div class="col-md-8 well">
+  <h2 id='top'>Payment</h2>
+  <br/>
+  <br/>
+  <div class="row">
+    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='pan' placeholder='Card number'}}
+    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='securityCode' placeholder='Security code'}}
+    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='cardHolderName' placeholder='Card holder name'}}
+    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='expiryDate' placeholder='Card expiry date, M/YYYY'}}
+    <span class="col-sm-6 col-sm-offset-3">Amount: {{model.amount}}</span>
+  </div>
+  {{#if isProcessing}}
+    <span class="col-sm-offset-1 glyphicon glyphicon-refresh gly-spin"></span>
+  {{else}}
+    <a class="btn btn-success" {{action 'submitPayment' model}}>Confirm payment</a>
+  {{/if}}
+</div>
+<div class="col-md-2"></div>

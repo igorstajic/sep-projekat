@@ -58,4 +58,4 @@ db.once('open', () => {
 });
 
 require('./routes/submit-payment')(app);
-require('./routes/index')(app);
+require('./routes/payments')(app);

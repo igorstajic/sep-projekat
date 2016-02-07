@@ -1,0 +1,68 @@
+import Ember from 'ember';
+
+const {
+  computed,
+  observer,
+  defineProperty,
+  run
+} = Ember;
+
+export default Ember.Component.extend({
+  classNames: ['validated-input', 'form-group'],
+  classNameBindings: ['showErrorClass:has-error', 'isValid:has-success'],
+  model: null,
+  value: null,
+  rawInputValue: null,
+  type: 'text',
+  valuePath: '',
+  placeholder: '',
+  attributeValidation: null,
+  isTyping: false,
+
+  didValidate: computed.oneWay('targetObject.didValidate'),
+
+  showErrorClass: computed('isTyping', 'showMessage', 'hasContent', 'attributeValidation', function() {
+    return this.get('attributeValidation.isInvalid') && !this.get('isTyping') && this.get('showMessage');
+  }),
+
+  hasContent: computed.notEmpty('rawInputValue'),
+
+  isValid: computed.and('hasContent', 'attributeValidation.isValid'),
+
+  isInvalid: computed.oneWay('attributeValidation.isInvalid'),
+
+  inputValueChange: observer('rawInputValue', function() {
+    this.set('isTyping', true);
+    run.debounce(this, this.setValue, 500, false);
+  }),
+
+  /**
+   * When we reset the form, we manually set `value` so we have to make sure to propogate that change
+   * to the input field
+   */
+  syncRawInputValue: observer('value', function() {
+    let value = this.get('value');
+    let rawInputValue = this.get('rawInputValue');
+
+    if(value !== rawInputValue) {
+      this.set('rawInputValue', value);
+    }
+  }),
+
+  showMessage: computed('attributeValidation.isDirty', 'isInvalid', 'didValidate', function() {
+    return (this.get('attributeValidation.isDirty') || this.get('didValidate')) && this.get('isInvalid');
+  }),
+
+  setValue() {
+    this.set('value', this.get('rawInputValue'));
+    this.set('isTyping', false);
+  },
+
+  init() {
+    this._super(...arguments);
+    var valuePath = this.get('valuePath');
+    defineProperty(this, 'attributeValidation', computed.oneWay(`model.validations.attrs.${valuePath}`));
+    this.set('rawInputValue', this.get(`model.${valuePath}`));
+    defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
+  }
+});

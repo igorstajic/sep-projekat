@@ -23,6 +23,7 @@ module.exports = function(environment) {
     },
 
     APP: {
+      acquirerApi: 'https://localhost:5443'
       // Here you can pass flags/options to your application instance
       // when it is created
     }
