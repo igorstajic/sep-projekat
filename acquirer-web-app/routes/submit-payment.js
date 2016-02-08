@@ -66,6 +66,9 @@ module.exports = app => {
           if (!body) {
             return handleError(res, payment.errorUrl, error);
           }
+          if (body.error) {
+            return handleError(res, payment.errorUrl, error);
+          }
           r.post({
             'url': env.finalizeUrl,
             'json': true,

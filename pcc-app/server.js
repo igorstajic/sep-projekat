@@ -11,9 +11,12 @@ app.use(bodyParser.json());
 var fs = require('fs');
 
 var https = require('https');
-var privateKey  = fs.readFileSync('./ssl/server.key', 'utf8');
+var privateKey = fs.readFileSync('./ssl/server.key', 'utf8');
 var certificate = fs.readFileSync('./ssl/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+var credentials = {
+  key: privateKey,
+  cert: certificate
+};
 
 var httpsServer = https.createServer(credentials, app);
 
@@ -53,7 +56,12 @@ app.route('/authorize-payment')
     Issuer.findOne({
       'pan': req.body.paymentRequest.pan
     }, 'url', function(err, issuer) {
-      if (err) return handleError(err);
+      if (err) {
+        return handleError(res, 500,  err);
+      }
+      if (issuer === null) {
+        return handleError(res, 404, 'Issuer does not exist in the database.');
+      }
       r.post({
         'url': issuer.url,
         'json': true,
@@ -64,3 +72,12 @@ app.route('/authorize-payment')
       });
     });
   });
+
+function handleError(res, status, error) {
+  res.status(status);
+  return res.json({
+    'error': {
+      'details': error
+    }
+  });
+}
