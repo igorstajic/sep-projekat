@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var env = require('./config/environment');
+var autoIncrement = require('mongoose-auto-increment');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var app = express();
@@ -8,9 +9,12 @@ var app = express();
 var fs = require('fs');
 
 var https = require('https');
-var privateKey  = fs.readFileSync('./ssl/server.key', 'utf8');
+var privateKey = fs.readFileSync('./ssl/server.key', 'utf8');
 var certificate = fs.readFileSync('./ssl/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+var credentials = {
+  key: privateKey,
+  cert: certificate
+};
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -35,8 +39,13 @@ var options = {
 mongoose.connect(env.db, options);
 
 var db = mongoose.connection;
+autoIncrement.initialize(db);
 require('./models/account');
+require('./models/paymentRecord');
+
 var Account = mongoose.model('Account');
+var PaymentRecord = mongoose.model('PaymentRecord');
+
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
@@ -64,22 +73,30 @@ app.route('/payment')
       if (err) {
         return handleError(res, err);
       }
-      const response = {
-        status: (account.balance >= req.body.paymentRequest.transactionAmount) ? 'success' : 'failed',
-        acquirerOrderId: req.body.paymentRequest.acquirerOrderId,
-        acquirerTimestamp: req.body.paymentRequest.acquirerTimestamp,
-        issuerOrderId: 12345,
-        issuerTimestamp: new Date().getTime()
-      };
-      Account.update({
-        '_id': account._id
-      }, {
-        'balance': account.balance - req.body.paymentRequest.transactionAmount,
-        'reserved': account.reserved + req.body.paymentRequest.transactionAmount
-      }, (error, data) => {
-        res.json({
-          'paymentResponse': response
+      if (account === null) {
+        return handleError(res, 'Invalid card number.');
+      }
+      var newRecord = new PaymentRecord({
+        'status': (account.balance >= req.body.paymentRequest.transactionAmount) ? 'success' : 'failed',
+        'acquirerOrderId': req.body.paymentRequest.acquirerOrderId,
+        'acquirerTimestamp': req.body.paymentRequest.acquirerTimestamp,
+        'issuerTimestamp': new Date().getTime()
+      });
+      newRecord.save((error, payment) => {
+        if (error || payment === null) {
+          return handleError(res, payment.errorUrl, error);
+        }
+        Account.update({
+          '_id': account._id
+        }, {
+          'balance': account.balance - req.body.paymentRequest.transactionAmount,
+          'reserved': account.reserved + req.body.paymentRequest.transactionAmount
+        }, (error, data) => {
+          res.json({
+            'paymentResponse': payment
+          });
         });
       });
+
     });
   });

@@ -53,8 +53,9 @@ var r = require('request');
 
 app.route('/authorize-payment')
   .post((req, res, next) => {
+    var issuerIdentifier = req.body.paymentRequest.pan.substring(0,5);
     Issuer.findOne({
-      'pan': req.body.paymentRequest.pan
+      'identifier': issuerIdentifier
     }, 'url', function(err, issuer) {
       if (err) {
         return handleError(res, 500,  err);
@@ -68,6 +69,7 @@ app.route('/authorize-payment')
         'rejectUnauthorized': false,
         'body': req.body,
       }, (error, httpResponse, body) => {
+        console.log('body:', body);
         res.json(body);
       });
     });
