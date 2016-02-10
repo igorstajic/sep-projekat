@@ -3,6 +3,22 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   regionList: ['Europe', 'Asia', 'Australia', 'North America', 'South America', 'Japan'],
+  sportList: [{
+    name: 'Skiing',
+    cat: 3
+  }, {
+    name: 'Boxing',
+    cat: 5
+  }, {
+    name: 'Gymnastics',
+    cat: 4
+  }, {
+    name: 'Swimming',
+    cat: 2
+  }, {
+    name: 'Golf',
+    cat: 1
+  }],
   amountLimits: [{
     id: 5000,
     value: 'up to 5000 €'
@@ -41,7 +57,9 @@ export default Ember.Controller.extend({
     },
     submitOrder() {
       var model = this.get('model');
-      model.validate().then(({model, validations}) => {
+      model.validate().then(({
+        model, validations
+      }) => {
         this.set('didValidate', true);
         if (validations.get('isValid')) {
           this.set('isProcessing', true);

@@ -14,6 +14,11 @@ export default Ember.Component.extend({
   value: null,
   rawInputValue: null,
   type: 'text',
+  dateOptions: {
+    'format': 'd/m/yyyy',
+    selectYears: 200,
+    selectMonths: 12
+  },
   valuePath: '',
   placeholder: '',
   attributeValidation: null,

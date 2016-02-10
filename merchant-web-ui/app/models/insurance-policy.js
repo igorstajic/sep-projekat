@@ -15,8 +15,7 @@ const Validations = buildValidations({
     validators: [
       validator('presence', true),
       validator('date', {
-        before: 'now',
-        format: 'M/D/YYYY'
+        after: 'now'
       })
     ]
   },
@@ -25,8 +24,7 @@ const Validations = buildValidations({
     validators: [
       validator('presence', true),
       validator('date', {
-        before: 'now',
-        format: 'M/D/YYYY'
+        after: 'now'
       })
     ]
   },

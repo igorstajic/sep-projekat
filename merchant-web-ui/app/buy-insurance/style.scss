@@ -11,11 +11,9 @@
     cursor: not-allowed;
   }
 }
-
 .home-insurance {
   padding-left: 5em;
 }
-
 .vehicle-insurance {
   padding-top: 1em;
   padding-left: 5em;
@@ -34,6 +32,20 @@
 .fa-times:hover {
   font-size: 2em;
 }
-.select-region, .select-amount {
+.select-region,
+.select-amount {
   padding-bottom: 1em;
+}
+.main-form {
+  padding-top: 2em;
+}
+.loading {
+  padding-top: 25%;
+}
+.confirm {
+  padding-top: 25%;
+  padding-left: 40%;
+  a {
+    font-size: 3em;
+  }
 }

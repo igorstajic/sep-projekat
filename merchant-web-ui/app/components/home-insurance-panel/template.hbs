@@ -1,12 +1,12 @@
 <div class="{{if (and didValidate (v-get person 'isInvalid')) 'panel-has-error'}} panel-heading panel-hover" {{action 'toggleColapse'}}>
-  <i class="fa fa-home"/>Home insurance information
+  <i class="fa fa-home"/> Home insurance information
   <span {{action attrs.remove}} class="remove-btn pull-right fa fa-times fa-lg"/>
 </div>
 <div class="panel-body {{unless isShown 'hidden'}}">
   {{validated-input model=model valuePath='ownerFullName' placeholder='Full name'}}
-  {{validated-input model=model valuePath='ownerIdNumber' placeholder='JMBG'}}
-  {{validated-input model=model valuePath='startDate' placeholder='Start date'}}
-  {{validated-input model=model valuePath='endDate' placeholder='End date'}}
+  {{validated-input model=model valuePath='ownerIdNumber' placeholder='Personal number'}}
+  {{validated-input type="date" model=model valuePath='startDate' placeholder='Start date'}}
+  {{validated-input type="date" model=model valuePath='endDate' placeholder='End date'}}
   {{validated-input model=model valuePath='homeValueEstimate' placeholder='Value estimate'}}
   {{validated-input model=model valuePath='homeAddress' placeholder='Address'}}
   {{validated-input model=model valuePath='homeArea' placeholder='Area in m²'}}

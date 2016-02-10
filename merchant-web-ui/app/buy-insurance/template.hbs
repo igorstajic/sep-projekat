@@ -12,7 +12,17 @@
   </div>
 </section>
 <div class="col-md-2"></div>
-<div class="col-md-8 container">
+<div class="col-md-8 container main-form">
+  {{#if isProcessing}}
+  <div class="row loading">
+    <i class="fa fa-spinner fa-spin fa-4x col-sm-offset-6"></i>
+  </div>
+  {{else}}
+  {{#if paymentRedirection}}
+  <div class="row confirm">
+    <a href="{{paymentRedirection.url}}/{{paymentRedirection.param}}" class="btn btn-success"> Go to payment <i class="fa fa-arrow-circle-right"></i></a>
+  </div>
+  {{else}}
   <div class="row">
     <div class="select-region col-sm-6 col-sm-offset-3">
       <select class="form-control" onchange= {{action (mut model.region) value="target.value"}}>
@@ -30,8 +40,16 @@
         {{/each}}
       </select>
     </div>
-
-    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='startDate' placeholder='Start date'}} {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='endDate' placeholder='End date'}}
+    {{validated-input type="date" class="col-sm-6 col-sm-offset-3" model=model valuePath='startDate' placeholder='Start date'}}
+    {{validated-input type="date" class="col-sm-6 col-sm-offset-3" model=model valuePath='endDate' placeholder='End date'}}
+    <div class="select-amount col-sm-6 col-sm-offset-3">
+      <select class="form-control" onchange= {{action (mut model.sport) value="target.value"}}>
+        <option selected value=0>For additional sport insurance, choose a sport</option>
+        {{#each sportList as |sport|}}
+          <option value= {{sport.cat}} selected= {{eq sport.cat model.sport}}>{{sport.name}}</option>
+        {{/each}}
+      </select>
+    </div>
   </div>
   <div class="row home-insurance">
     {{#if model.vehicleInsurance}}
@@ -68,27 +86,18 @@
   {{#each model.persons as |person index|}}
     <div class="row">
       {{#if (eq index 0)}}
-        {{traveler-panel class="col-sm-6 col-sm-offset-3" didValidate=didValidate showEmail=true headerText='Insurance holder information' person=person remove=(action 'removePerson' person)}}
+        {{traveler-panel isShown=false class="col-sm-6 col-sm-offset-3" didValidate=didValidate showEmail=true headerText='Insurance holder information' person=person remove=(action 'removePerson' person)}}
       {{else}}
         {{traveler-panel class="col-sm-6 col-sm-offset-3" didValidate=didValidate person=person remove=(action 'removePerson' person)}}
       {{/if}}
     </div>
   {{/each}}
   <div class="row">
-    {{#if isProcessing}}
-      <i class="fa fa-spinner fa-spin fa-lg"></i> Processing...
-    {{else}}
-      {{#unless paymentRedirection}}
-        <button {{action 'addPerson'}} class="fa fa-user-plus col-sm-offset-3 btn btn-info"> Add traveler</button>
-        {{#if (v-get model 'isValid')}}
-          <button class="btn btn-default col-sm-offset-4" {{action 'submitOrder'}}>Submit order</button>
-        {{else}}
-          <button class="btn btn-default col-sm-offset-4" {{action 'submitOrder'}}>Submit order</button>
-        {{/if}}
-    {{else}}
-      <a href="{{paymentRedirection.url}}/{{paymentRedirection.param}}" class="btn btn-success">Go to payment</a>
-      {{/unless}}
-    {{/if}}
+    <button {{action 'addPerson'}} class="fa fa-user-plus col-sm-offset-3 btn btn-info"> Add traveler</button>
+    <button class="btn btn-default col-sm-offset-4" {{action 'submitOrder'}}>Submit order</button>
   </div>
+  {{/if}}
+  {{/if}}
 </div>
+
 <div class="col-md-2"></div>

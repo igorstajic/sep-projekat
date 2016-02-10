@@ -1,5 +1,8 @@
-{{input type=type value=rawInputValue placeholder=placeholder class="form-control" name=valuePath}}
-
+{{#if (eq type 'date')}}
+{{pick-a-date class="form-control" date=(readonly rawInputValue) on-selected=(action (mut rawInputValue)) placeholder=placeholder options=(readonly dateOptions) }}
+{{else}}
+  {{input type=type value=rawInputValue placeholder=placeholder class="form-control" name=valuePath}}
+{{/if}}
 <div class="input-error">
   {{#if showMessage}}
     <div class="help-block">

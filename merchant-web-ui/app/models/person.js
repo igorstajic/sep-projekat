@@ -16,6 +16,15 @@ const Validations = buildValidations({
       is: 13
     })
   ],
+  birthDate: {
+    description: 'Start date',
+    validators: [
+      validator('presence', true),
+      validator('date', {
+        before: 'now'
+      })
+    ]
+  },
   name: validator('presence', {
     presence: true
   }),
@@ -48,7 +57,7 @@ export default Model.extend(Validations, {
   idNumber: attr('number'),
   name: attr('string'),
   email: attr('string'),
-  ageCategory: attr('number'),
+  birthDate: attr('number'),
   address: attr('string'),
   phoneNumber: attr('string'),
   passportNumber: attr('number'),

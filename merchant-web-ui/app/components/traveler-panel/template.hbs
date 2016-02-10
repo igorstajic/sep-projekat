@@ -5,7 +5,8 @@
 <div class="panel-body {{unless isShown 'hidden'}}">
   {{validated-input model=(mut person) valuePath='name' placeholder='Full name'}}
   {{validated-input model=person valuePath='passportNumber' placeholder='Passport number'}}
-  {{validated-input model=person valuePath='idNumber' placeholder='JMBG'}}
+  {{validated-input model=person valuePath='idNumber' placeholder='Personal number'}}
+  {{validated-input type="date" model=person valuePath='birthDate' placeholder='Birth date'}}
   {{validated-input model=person valuePath='address' placeholder='Address'}}
   {{validated-input model=person valuePath='phoneNumber' placeholder='Phone'}}
   {{#if showEmail}}
