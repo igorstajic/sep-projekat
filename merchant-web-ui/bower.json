@@ -7,7 +7,9 @@
     "ember-load-initializers": "0.1.7",
     "ember-qunit-notifications": "0.1.0",
     "jquery": "1.11.3",
-    "bootstrap": "~3.3.6"
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.5.0",
+    "font-awesome-animation": "~0.0.8"
   },
   "resolutions": {
     "ember": "2.3.0"

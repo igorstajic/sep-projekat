@@ -1,10 +1,20 @@
+<section id="page-breadcrumb">
+  <div class="vertical-center sun">
+    <div class="container">
+      <div class="row">
+        <div class="action">
+          <div class="col-sm-12">
+            <h1 class="title">Buy travel insurance</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <div class="col-md-2"></div>
-<div class="col-md-8 well">
-  <h2 id='top'>Buy travel insurance</h2>
-  <br/>
-  <br/>
+<div class="col-md-8 container">
   <div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
+    <div class="select-region col-sm-6 col-sm-offset-3">
       <select class="form-control" onchange= {{action (mut model.region) value="target.value"}}>
         <option selected disabled>Select the region you are traveling to.</option>
         {{#each regionList as |region|}}
@@ -12,7 +22,7 @@
         {{/each}}
       </select>
     </div>
-    <div class="col-sm-6 col-sm-offset-3">
+    <div class="select-amount col-sm-6 col-sm-offset-3">
       <select class="form-control" onchange= {{action (mut model.amountLimit) value="target.value"}}>
         <option selected disabled>Select maximum insurance amount.</option>
         {{#each amountLimits as |amount|}}
@@ -21,45 +31,64 @@
       </select>
     </div>
 
-    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='startDate' placeholder='Start date'}}
-    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='endDate' placeholder='End date'}}
+    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='startDate' placeholder='Start date'}} {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='endDate' placeholder='End date'}}
+  </div>
+  <div class="row home-insurance">
     {{#if model.vehicleInsurance}}
-      <button class="btn btn-primary col-sm-offset-4 col-sm-2" disabled>Add vehicle insurance</button>
+      <span class="col-sm-4 col-sm-offset-4 insurance-btn disabled">
+      <i class="fa fa-check"></i> Add vehicle insurance
+      </span>
     {{else}}
-      <button class="btn btn-primary col-sm-offset-4 col-sm-2" {{action 'addVehicleInsurance'}}>Add vehicle insurance</button>
+      <span {{action 'addVehicleInsurance'}} class="insurance-btn faa-parent animated-hover col-sm-4 col-sm-offset-4">
+        <i class="fa fa-car faa-pulse"></i> Add vehicle insurance
+      </span>
     {{/if}}
+  </div>
+  <div class="row vehicle-insurance">
     {{#if model.homeInsurance}}
-      <button class="btn btn-primary col-sm-offset-1 col-sm-2" disabled>Add home insurance</button>
+      <span class="insurance-btn col-sm-4 col-sm-offset-4 disabled">
+        <i class="fa fa-check "></i> Add home insurance
+      </span>
     {{else}}
-      <button class="btn btn-primary col-sm-offset-1 col-sm-2" {{action 'addHomeInsurance'}}>Add home insurance</button>
+      <span {{action 'addHomeInsurance'}} class="insurance-btn col-sm-4 faa-parent animated-hover col-sm-offset-4">
+        <i class="fa fa-home faa-pulse"></i> Add home insurance
+      </span>
     {{/if}}
   </div>
   {{#if model.homeInsurance}}
-  {{home-insurance-panel didValidate=didValidate model=model.homeInsurance remove=(action 'removeHomeInsurance')}}
+    <div class="row">
+      {{home-insurance-panel class="col-sm-6 col-sm-offset-3" didValidate=didValidate model=model.homeInsurance remove=(action 'removeHomeInsurance')}}
+    </div>
   {{/if}}
   {{#if model.vehicleInsurance}}
-  {{vehicle-insurance-panel didValidate=didValidate model=model.vehicleInsurance remove=(action 'removeVehicleInsurance')}}
+    <div class="row">
+      {{vehicle-insurance-panel class="col-sm-6 col-sm-offset-3" didValidate=didValidate model=model.vehicleInsurance remove=(action 'removeVehicleInsurance')}}
+    </div>
   {{/if}}
   {{#each model.persons as |person index|}}
-    {{#if (eq index 0)}}
-      {{traveler-panel didValidate=didValidate showEmail=true headerText='Insurance holder information' person=person remove=(action 'removePerson' person)}}
-    {{else}}
-      {{traveler-panel didValidate=didValidate person=person remove=(action 'removePerson' person)}}
-    {{/if}}
-  {{/each}}
-  {{#if isProcessing}}
-    <span class="col-sm-offset-1 glyphicon glyphicon-refresh gly-spin"></span>
-  {{else}}
-    {{#unless paymentRedirection}}
-      <button {{action 'addPerson'}} class="btn btn-info">Add traveler</button>
-      {{#if (v-get model 'isValid')}}
-        <button class="btn btn-default" {{action 'submitOrder'}}>Submit</button>
+    <div class="row">
+      {{#if (eq index 0)}}
+        {{traveler-panel class="col-sm-6 col-sm-offset-3" didValidate=didValidate showEmail=true headerText='Insurance holder information' person=person remove=(action 'removePerson' person)}}
       {{else}}
-        <button class="btn btn-default" {{action 'submitOrder'}}>Submit</button>
+        {{traveler-panel class="col-sm-6 col-sm-offset-3" didValidate=didValidate person=person remove=(action 'removePerson' person)}}
       {{/if}}
-  {{else}}
-    <a href="{{paymentRedirection.url}}/{{paymentRedirection.param}}" class="btn btn-success">Go to payment</a>
-    {{/unless}}
-  {{/if}}
+    </div>
+  {{/each}}
+  <div class="row">
+    {{#if isProcessing}}
+      <i class="fa fa-spinner fa-spin fa-lg"></i> Processing...
+    {{else}}
+      {{#unless paymentRedirection}}
+        <button {{action 'addPerson'}} class="fa fa-user-plus col-sm-offset-3 btn btn-info"> Add traveler</button>
+        {{#if (v-get model 'isValid')}}
+          <button class="btn btn-default col-sm-offset-4" {{action 'submitOrder'}}>Submit order</button>
+        {{else}}
+          <button class="btn btn-default col-sm-offset-4" {{action 'submitOrder'}}>Submit order</button>
+        {{/if}}
+    {{else}}
+      <a href="{{paymentRedirection.url}}/{{paymentRedirection.param}}" class="btn btn-success">Go to payment</a>
+      {{/unless}}
+    {{/if}}
+  </div>
 </div>
 <div class="col-md-2"></div>

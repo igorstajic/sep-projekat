@@ -1,8 +1,8 @@
-<div class="panel-heading">
-  Home insurance information
-  <span {{action attrs.remove}} class="remove-btn pull-right glyphicon glyphicon-remove"/>
+<div class="{{if (and didValidate (v-get person 'isInvalid')) 'panel-has-error'}} panel-heading panel-hover" {{action 'toggleColapse'}}>
+  <i class="fa fa-home"/>Home insurance information
+  <span {{action attrs.remove}} class="remove-btn pull-right fa fa-times fa-lg"/>
 </div>
-<div class="panel-body">
+<div class="panel-body {{unless isShown 'hidden'}}">
   {{validated-input model=model valuePath='ownerFullName' placeholder='Full name'}}
   {{validated-input model=model valuePath='ownerIdNumber' placeholder='JMBG'}}
   {{validated-input model=model valuePath='startDate' placeholder='Start date'}}

@@ -1,8 +1,8 @@
-<div class="panel-heading">
-  Vehicle insurance information
-  <span {{action attrs.remove}} class="remove-btn pull-right glyphicon glyphicon-remove"/>
+<div class="{{if (and didValidate (v-get person 'isInvalid')) 'panel-has-error'}} panel-heading panel-hover" {{action 'toggleColapse'}}>
+  <i class="fa fa-car"/> Vehicle insurance information
+  <span {{action attrs.remove}} class="remove-btn pull-right fa fa-times fa-lg"/>
 </div>
-<div class="panel-body">
+<div class="panel-body {{unless isShown 'hidden'}}">
   {{validated-input model=model valuePath="ownerFullName" placeholder="Full name"}}
   {{validated-input model=model valuePath="ownerIdNumber" placeholder="JMBG"}}
   {{validated-input model=model valuePath="startDate" placeholder="Start date"}}
@@ -12,19 +12,19 @@
   {{validated-input model=model valuePath="registrationNumber" placeholder="Registration number"}}
   {{validated-input model=model valuePath="chassisNumber" placeholder="Chassis number"}}
   <div class="form-inline">
-    <div class="form-group">
+    <div class="form-group col-sm-12">
       {{input id="cbox_repair_services" type="checkbox" class="css-checkbox" checked=model.repairServices}}
       <label for="cbox_repair_services" class="css-label">Repair services (up to 500 €)</label>
     </div>
-    <div class="form-group">
+    <div class="form-group col-sm-12">
       {{input id="cbox_towing_services" type="checkbox" class="css-checkbox" checked=model.towingServices}}
       <label for="cbox_towing_services" class="css-label">Towing services (up to 100km)</label>
     </div>
-    <div class="form-group">
+    <div class="form-group col-sm-12">
       {{input id="cbox_hotel_accomodation" type="checkbox" class="css-checkbox" checked=model.hotelAccomodation}}
       <label for="cbox_hotel_accomodation" class="css-label">Hotel accomodation (up to 3 days)</label>
     </div>
-    <div class="form-group">
+    <div class="form-group col-sm-12">
       {{input id="cbox_alternative_transport" type="checkbox" class="css-checkbox" checked=model.alternativeTransport}}
       <label for="cbox_alternative_transport" class="css-label">Require alternative transport</label>
     </div>

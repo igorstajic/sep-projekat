@@ -1,0 +1,39 @@
+.insurance-btn {
+  font-size: 1.25em;
+  &:hover {
+    color: #2cc3d7;
+    cursor: pointer;
+  }
+}
+.insurance-btn.disabled {
+  color: grey;
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+.home-insurance {
+  padding-left: 5em;
+}
+
+.vehicle-insurance {
+  padding-top: 1em;
+  padding-left: 5em;
+  padding-bottom: 1em;
+  i {
+    padding-right: 0.24em;
+  }
+}
+.panel-has-error {
+  background-color: #f9bebe !important;
+}
+.panel-hover:hover {
+  background-color: #85cdc0;
+  cursor: pointer;
+}
+.fa-times:hover {
+  font-size: 2em;
+}
+.select-region, .select-amount {
+  padding-bottom: 1em;
+}

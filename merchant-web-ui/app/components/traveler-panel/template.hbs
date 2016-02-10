@@ -1,8 +1,8 @@
-<div class="panel-heading">
-  {{headerText}}
-  <span {{action attrs.remove}} class="{{if showEmail 'hidden'}} remove-btn pull-right glyphicon glyphicon-remove"/>
+<div class="{{if (and didValidate (v-get person 'isInvalid')) 'panel-has-error'}} panel-heading panel-hover" {{action 'toggleColapse'}}>
+  <i class="fa fa-user"></i> {{headerText}}
+  <span {{action attrs.remove}} class="{{if showEmail 'hidden'}} remove-btn pull-right fa fa-lg fa-times"/>
 </div>
-<div class="panel-body">
+<div class="panel-body {{unless isShown 'hidden'}}">
   {{validated-input model=(mut person) valuePath='name' placeholder='Full name'}}
   {{validated-input model=person valuePath='passportNumber' placeholder='Passport number'}}
   {{validated-input model=person valuePath='idNumber' placeholder='JMBG'}}
