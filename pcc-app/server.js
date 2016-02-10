@@ -69,7 +69,6 @@ app.route('/authorize-payment')
         'rejectUnauthorized': false,
         'body': req.body,
       }, (error, httpResponse, body) => {
-        console.log('body:', body);
         res.json(body);
       });
     });

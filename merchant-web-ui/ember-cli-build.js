@@ -20,8 +20,20 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
   app.import('bower_components/bootstrap/dist/css/bootstrap.css');
+  app.import('vendor/css/animate.min.css');
+  app.import('vendor/css/responsive.css');
+  app.import('vendor/css/main.css');
   app.import('bower_components/bootstrap/dist/css/bootstrap.css.map', { destDir: 'assets' });
   app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff', { destDir: 'fonts' });
+  app.import('bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2', { destDir: 'fonts' });
+
+  app.import('vendor/css/checkbox.png', {destDir: 'images'});
+  app.import('vendor/images/home/slider/hill.png', {destDir: 'images/home'});
+  app.import('vendor/images/home/slider/sun.png', {destDir: 'images/home'});
+  app.import('vendor/images/home/slider/house.png', {destDir: 'images/home'});
+  app.import('vendor/images/home/slider/birds1.png', {destDir: 'images/home'});
+  app.import('vendor/images/home/slider/birds2.png', {destDir: 'images/home'});
+  app.import('vendor/images/home/slider-bg.png', {destDir: 'images/home'});
 
 
   return app.toTree();
