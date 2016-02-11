@@ -7,3 +7,7 @@
 .loading {
   padding-top: 25%;
 }
+.amount {
+  padding-bottom: 1em;
+  font-size: 2em
+}

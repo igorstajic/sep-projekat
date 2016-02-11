@@ -10,5 +10,6 @@
   // Use SSL for development server by default
   "ssl": true,
   "ssl-key": "./ssl/server.key",
-  "ssl-cert": "./ssl/server.crt"
+  "ssl-cert": "./ssl/server.crt",
+  "port": 3200
 }

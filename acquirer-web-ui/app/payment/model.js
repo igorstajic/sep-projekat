@@ -10,9 +10,7 @@ const Validations = buildValidations({
   pan: [
     // Add number validation algorithm.
     validator('presence', true),
-    validator('length', {
-      lt: 19
-    })
+    validator('valid-card-number')
   ],
   securityCode: validator('presence', true),
   cardHolderName: validator('presence', true),

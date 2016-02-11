@@ -6,8 +6,11 @@
       <i class="fa fa-spinner fa-spin fa-4x col-sm-offset-6"></i>
     </div>
   {{else}}
+  <div class="row">
+    <span class="col-sm-6 col-sm-offset-3 amount">Amount to pay: {{model.amount}}</span>
+  </div>
     <div class="row">
-      <span class="col-sm-6 col-sm-offset-3">Amount: {{model.amount}}</span> {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='pan' placeholder='Card number'}} {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='securityCode'
+       {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='pan' placeholder='Card number'}} {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='securityCode'
       placeholder='Security code'}} {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='cardHolderName' placeholder='Card holder name'}} {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='expiryDate' placeholder='Card
       expiry date, M/YYYY'}}
     </div>
