@@ -1,19 +1,19 @@
+<h2 id='top'>Online payment system</h2>
 <div class="col-md-2"></div>
-<div class="col-md-8 well">
-  <h2 id='top'>Payment</h2>
-  <br/>
-  <br/>
-  <div class="row">
-    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='pan' placeholder='Card number'}}
-    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='securityCode' placeholder='Security code'}}
-    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='cardHolderName' placeholder='Card holder name'}}
-    {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='expiryDate' placeholder='Card expiry date, M/YYYY'}}
-    <span class="col-sm-6 col-sm-offset-3">Amount: {{model.amount}}</span>
-  </div>
+<div class="col-md-8 container">
   {{#if isProcessing}}
-    <span class="col-sm-offset-1 glyphicon glyphicon-refresh gly-spin"></span>
+    <div class="row loading">
+      <i class="fa fa-spinner fa-spin fa-4x col-sm-offset-6"></i>
+    </div>
   {{else}}
-    <a class="btn btn-success" {{action 'submitPayment' model}}>Confirm payment</a>
+    <div class="row">
+      <span class="col-sm-6 col-sm-offset-3">Amount: {{model.amount}}</span> {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='pan' placeholder='Card number'}} {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='securityCode'
+      placeholder='Security code'}} {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='cardHolderName' placeholder='Card holder name'}} {{validated-input class="col-sm-6 col-sm-offset-3" model=model valuePath='expiryDate' placeholder='Card
+      expiry date, M/YYYY'}}
+    </div>
+    <div class="row">
+      <a class="btn btn-success col-sm-offset-8" {{action 'submitPayment' model}}>Confirm payment</a>
+    </div>
   {{/if}}
 </div>
 <div class="col-md-2"></div>

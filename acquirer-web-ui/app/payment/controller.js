@@ -6,24 +6,29 @@ export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
   actions: {
     submitPayment(paymentData) {
-      this.set('isProcessing', true);
-      const requestData = {
-        'cardInfo': {
-          'pan': paymentData.get('pan'),
-          'securityCode': paymentData.get('securityCode'),
-          'cardHolderName': paymentData.get('cardHolderName'),
-          'cardExpiryDate': paymentData.get('cardExpiryDate')
+      paymentData.validate().then(({
+        model, validations
+      }) => {
+        this.set('didValidate', true);
+        if (validations.get('isValid')) {
+          this.set('isProcessing', true);
+          const requestData = {
+            'cardInfo': {
+              'pan': paymentData.get('pan'),
+              'securityCode': paymentData.get('securityCode'),
+              'cardHolderName': paymentData.get('cardHolderName'),
+              'cardExpiryDate': paymentData.get('cardExpiryDate')
+            }
+          };
+          this.get('ajax').post(`${config.APP.acquirerApi}/submit-payment/${paymentData.get('id')}`, {
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(requestData)
+          }).then(response => {
+            window.location.replace(response.redirect.url);
+          }).catch(() => {
+            window.location.replace(paymentData.errorUrl);
+          });
         }
-      };
-      this.get('ajax').post(`${config.APP.acquirerApi}/submit-payment/${paymentData.get('id')}`, {
-        contentType: 'application/json;charset=utf-8',
-        data: JSON.stringify(requestData)
-      }).then(response => {
-        this.set('isProcessing', false);
-        window.location.replace(response.redirect.url);
-      }).catch(() => {
-        this.set('isProcessing', false);
-        window.location.replace(paymentData.errorUrl);
       });
     }
   }

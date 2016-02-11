@@ -16,9 +16,15 @@ const Validations = buildValidations({
   ],
   securityCode: validator('presence', true),
   cardHolderName: validator('presence', true),
-  expiryDate: validator('presence', true)
+  expiryDate: [
+    validator('presence', true),
+    validator('format', {
+      regex: /^(1[0-2]|0[1-9]|\d)\/(20\d{2}|19\d{2})$/,
+      message: 'Date must be in mm/yyyy format.'
+    })
+  ]
 });
-export default Model.extend(Validations,{
+export default Model.extend(Validations, {
   pan: attr('number'),
   securityCode: attr('number'),
   cardHolderName: attr('string'),
